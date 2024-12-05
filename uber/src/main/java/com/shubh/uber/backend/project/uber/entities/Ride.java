@@ -43,7 +43,7 @@ public class Ride {
 
     private Double fare;
 
-    private LocalDateTime statedAt;  //when ride starts(after otp input)
+    private LocalDateTime startedAt;  //when ride starts(after otp input)
 
     private LocalDateTime endedAt;  //when reached destination
 }
