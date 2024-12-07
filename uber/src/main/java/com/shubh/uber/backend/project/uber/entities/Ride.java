@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Getter
-@Setter
 public class Ride {
 
     @Id
@@ -42,6 +40,8 @@ public class Ride {
     private RideStatus rideStatus;
 
     private Double fare;
+
+    private String otp;
 
     private LocalDateTime startedAt;  //when ride starts(after otp input)
 

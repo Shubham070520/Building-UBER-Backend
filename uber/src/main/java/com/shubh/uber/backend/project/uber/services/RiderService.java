@@ -4,6 +4,8 @@ import com.shubh.uber.backend.project.uber.dto.DriverDto;
 import com.shubh.uber.backend.project.uber.dto.RideDto;
 import com.shubh.uber.backend.project.uber.dto.RideRequestDto;
 import com.shubh.uber.backend.project.uber.dto.RiderDto;
+import com.shubh.uber.backend.project.uber.entities.Rider;
+import com.shubh.uber.backend.project.uber.entities.User;
 
 import java.util.List;
 
@@ -19,5 +21,5 @@ public interface RiderService {
 
     List<RideDto> getAllMyRides();
 
-
+    Rider createNewRider(User user);
 }

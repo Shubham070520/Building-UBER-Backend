@@ -15,5 +15,4 @@ public class DriverDto {
 
     private Double rating;
 
-
 }

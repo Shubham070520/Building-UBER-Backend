@@ -27,6 +27,8 @@ public class RideDto {
 
     private Double fare;
 
+    private String otp;
+
     private LocalDateTime statedAt;
 
     private LocalDateTime endedAt;

@@ -15,7 +15,7 @@ public interface RideService {
 
     Ride createNewRide(RideRequestDto rideRequestDto , Driver driver);
 
-    Ride updateRideStatus(Long rideId , RideStatus rideStatus);   //Riderservice and driver sservice call this so no code is repeated
+    Ride updateRideStatus(Long rideId , RideStatus rideStatus);   //Riderservice and driver service call this so no code is repeated
 
     Page<Ride> getAllRidesOfRider(Long riderId , PageRequest pageRequest);
 

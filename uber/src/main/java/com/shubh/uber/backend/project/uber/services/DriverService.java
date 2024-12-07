@@ -22,9 +22,4 @@ public interface DriverService {
 
     List<RideDto> getAllMyRides();
 
-
-
-
-
-
 }

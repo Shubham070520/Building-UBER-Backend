@@ -37,7 +37,7 @@ public class RideRequest {   //one riderequest table can have lot of users.
     @Enumerated(EnumType.STRING)
     private RideRequestStatus rideRequestStatus;
 
-
+    private Double fare;
 }
 
 
