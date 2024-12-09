@@ -23,5 +23,4 @@ public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
         }
         return new ApiResponse<>(body);
     }
-
 }

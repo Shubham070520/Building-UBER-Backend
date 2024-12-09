@@ -2,13 +2,12 @@ package com.shubh.uber.backend.project.uber.controllers;
 
 import com.shubh.uber.backend.project.uber.dto.RideRequestDto;
 import com.shubh.uber.backend.project.uber.services.RiderService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/rider")
+@RequestMapping("/riders")
 @RequiredArgsConstructor
 public class RiderController {
 

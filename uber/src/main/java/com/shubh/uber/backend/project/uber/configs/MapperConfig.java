@@ -28,7 +28,6 @@ public class MapperConfig {
             return new PointDto(coordinates);
         });
 
-
         return mapper;
     }
 }
