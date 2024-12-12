@@ -11,6 +11,7 @@ import com.shubh.uber.backend.project.uber.entities.enums.RideStatus;
 import com.shubh.uber.backend.project.uber.exceptions.ResourceNotFoundException;
 import com.shubh.uber.backend.project.uber.repositories.DriverRepository;
 import com.shubh.uber.backend.project.uber.services.DriverService;
+import com.shubh.uber.backend.project.uber.services.RideRequestService;
 import com.shubh.uber.backend.project.uber.services.RideService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
