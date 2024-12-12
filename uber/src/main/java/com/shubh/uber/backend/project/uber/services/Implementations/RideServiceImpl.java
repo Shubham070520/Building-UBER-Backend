@@ -52,7 +52,7 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public Ride updateRideStatus(Long rideId, RideStatus rideStatus) {
+    public Ride updateRideStatus(Ride rideId, RideStatus rideStatus) {
         ride.setRideStatus(rideStatus);
         return rideRepository.save(ride);
     }

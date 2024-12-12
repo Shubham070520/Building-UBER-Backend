@@ -103,5 +103,4 @@ public class DriverServiceImpl implements DriverService {
         return driverRepository.findById(2L).orElseThrow(() -> new ResourceNotFoundException("Driver not found with " +
                 "id "+2));
     }
-
 }

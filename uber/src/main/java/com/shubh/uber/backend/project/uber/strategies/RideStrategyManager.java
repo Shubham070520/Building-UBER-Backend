@@ -1,8 +1,6 @@
 package com.shubh.uber.backend.project.uber.strategies;
 
-import com.shubh.uber.backend.project.uber.strategies.implementations.DriverMatchingHighestRatedDriverStrategy;
-import com.shubh.uber.backend.project.uber.strategies.implementations.DriverMatchingNearestDriverStrategy;
-import com.shubh.uber.backend.project.uber.strategies.implementations.RideFareSurgePricingFareCalculationStrategy;
+import com.shubh.uber.backend.project.uber.strategies.implementations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +9,10 @@ import java.time.LocalTime;
 @Component
 @RequiredArgsConstructor
 public class RideStrategyManager {
-
     private final DriverMatchingHighestRatedDriverStrategy highestRatedDriverStrategy;
     private final DriverMatchingNearestDriverStrategy nearestDriverStrategy;
-    private final RideFareSurgePricingFareCalculationStrategy surgePricingFareCalculationStrategy;
-    private final RiderFareDefaultFareCalculationStrategy defaultFareCalculationStrategy;
+    private final RiderFareSurgePricingFareCalculationStrategy surgePricingFareCalculationStrategy;
+    private final RideFareDefaultFareCalculationStrategy defaultFareCalculationStrategy;
 
     public DriverMatchingStrategy driverMatchingStrategy(double riderRating) {
         if(riderRating >= 4.8) {

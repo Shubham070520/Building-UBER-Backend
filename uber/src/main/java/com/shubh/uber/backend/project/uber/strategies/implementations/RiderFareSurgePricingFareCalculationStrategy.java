@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class RideFareSurgePricingFareCalculationStrategy implements RideFareCalculationStrategy {
+public class RiderFareSurgePricingFareCalculationStrategy implements RideFareCalculationStrategy {
 
     private final DistanceService distanceService;
     private static final double SURGE_FACTOR = 2;
