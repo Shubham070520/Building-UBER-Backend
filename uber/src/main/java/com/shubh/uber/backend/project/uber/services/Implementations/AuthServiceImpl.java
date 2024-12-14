@@ -32,6 +32,8 @@ public class AuthServiceImpl implements AuthService {   //This is done because w
 
     @Override
     @Transactional
+    //This whole function will either execute everything or it will rollback
+
     public UserDto signup(SignupDto signupDto) {
         User user = userRepository.findByEmail(signupDto.getEmail()).orElse(null);
         if(user != null)
@@ -39,7 +41,11 @@ public class AuthServiceImpl implements AuthService {   //This is done because w
 
         User mappedUser = modelMapper.map(signupDto, User.class);
         mappedUser.setRoles(Set.of(Role.RIDER));
+
         User savedUser = userRepository.save(mappedUser);
+        //When this line is executed, user wont be directly stored to database...it will be stored in local memory
+        //Once the code is fully executed then only the user will be saved in the database
+        //This prevents data inconsistency
 
 //        create user related entities
         riderService.createNewRider(savedUser);
