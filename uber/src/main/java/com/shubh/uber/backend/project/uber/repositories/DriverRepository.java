@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+// ST_Distance(point1, point2)
+// ST_DWithin(point1, 10000)
+
 @Repository
 public interface DriverRepository extends JpaRepository<Driver , Long> {
 

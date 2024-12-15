@@ -15,7 +15,9 @@ public class DistanceServiceOSRMImpl implements DistanceService {
 
     @Override
     public double calculateDistance(Point src, Point dest) {
+
         try {
+
             String uri = src.getX()+","+src.getY()+";"+dest.getX()+","+dest.getY();
             //Creating object for restclient---> Could create config for this but we are going to use it only once
 
@@ -29,6 +31,7 @@ public class DistanceServiceOSRMImpl implements DistanceService {
 
             return responseDto.getRoutes().get(0).getDistance() / 1000.0;
         } catch (Exception e) {
+
             throw new RuntimeException("Error getting data from OSRM "+e.getMessage());
         }
     }
@@ -36,12 +39,14 @@ public class DistanceServiceOSRMImpl implements DistanceService {
 
 @Data
 class OSRMResponseDto {
+
     private List<OSRMRoute> routes;
     //distance name should be same as mentioned in the routes so that jackson can easily map it
 }
 
 @Data
 class OSRMRoute {
+
     private Double distance;
     //distance name should be same as mentioned in the routes so that jackson can easily map it
 }

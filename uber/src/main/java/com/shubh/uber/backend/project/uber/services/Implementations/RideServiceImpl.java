@@ -1,9 +1,9 @@
 package com.shubh.uber.backend.project.uber.services.Implementations;
 
-import com.shubh.uber.backend.project.uber.dto.RideRequestDto;
 import com.shubh.uber.backend.project.uber.entities.Driver;
 import com.shubh.uber.backend.project.uber.entities.Ride;
 import com.shubh.uber.backend.project.uber.entities.RideRequest;
+import com.shubh.uber.backend.project.uber.entities.Rider;
 import com.shubh.uber.backend.project.uber.entities.enums.RideRequestStatus;
 import com.shubh.uber.backend.project.uber.entities.enums.RideStatus;
 import com.shubh.uber.backend.project.uber.exceptions.ResourceNotFoundException;
@@ -33,11 +33,6 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public void matchWithDrivers(RideRequestDto rideRequestDto) {
-
-    }
-
-    @Override
     public Ride createNewRide(RideRequest rideRequest, Driver driver) {
         rideRequest.setRideRequestStatus(RideRequestStatus.CONFIRMED);
 
@@ -53,21 +48,25 @@ public class RideServiceImpl implements RideService {
 
     @Override
     public Ride updateRideStatus(Ride ride, RideStatus rideStatus) {
+
         ride.setRideStatus(rideStatus);
         return rideRepository.save(ride);
     }
 
     @Override
-    public Page<Ride> getAllRidesOfRider(Long riderId, PageRequest pageRequest) {
-        return null;
+    public Page<Ride> getAllRidesOfRider(Rider rider, PageRequest pageRequest) {
+
+        return rideRepository.findByRider(rider, pageRequest);
     }
 
     @Override
-    public Page<Ride> getAllRidesOfDriver(Long driverId, PageRequest pageRequest) {
-        return null;
+    public Page<Ride> getAllRidesOfDriver(Driver driver, PageRequest pageRequest) {
+
+        return rideRepository.findByDriver(driver, pageRequest);
     }
 
     private String generateRandomOTP() {
+
         Random random = new Random();
         int otpInt = random.nextInt(10000);  //0 to 9999
         return String.format("%04d", otpInt);
