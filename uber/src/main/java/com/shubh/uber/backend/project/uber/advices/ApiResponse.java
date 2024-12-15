@@ -1,11 +1,8 @@
 package com.shubh.uber.backend.project.uber.advices;
 
-import lombok.Builder;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 public class ApiResponse<T> {

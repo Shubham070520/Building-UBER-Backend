@@ -1,8 +1,6 @@
 package com.shubh.uber.backend.project.uber.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
