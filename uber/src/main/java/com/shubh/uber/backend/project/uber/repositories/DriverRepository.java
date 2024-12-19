@@ -12,8 +12,7 @@ import java.util.List;
 // ST_DWithin(point1, 10000)
 
 @Repository
-public interface DriverRepository extends JpaRepository<Driver , Long> {
-
+public interface DriverRepository extends JpaRepository<Driver, Long> {
     @Query(value = "SELECT d.*, ST_Distance(d.current_location, :pickupLocation) AS distance " +
             "FROM driver d " +
             "WHERE d.available = true AND ST_DWithin(d.current_location, :pickupLocation, 10000) " +

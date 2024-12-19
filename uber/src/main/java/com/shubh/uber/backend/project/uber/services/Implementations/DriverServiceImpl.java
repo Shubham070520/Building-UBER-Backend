@@ -10,10 +10,7 @@ import com.shubh.uber.backend.project.uber.entities.enums.RideRequestStatus;
 import com.shubh.uber.backend.project.uber.entities.enums.RideStatus;
 import com.shubh.uber.backend.project.uber.exceptions.ResourceNotFoundException;
 import com.shubh.uber.backend.project.uber.repositories.DriverRepository;
-import com.shubh.uber.backend.project.uber.services.DriverService;
-import com.shubh.uber.backend.project.uber.services.PaymentService;
-import com.shubh.uber.backend.project.uber.services.RideRequestService;
-import com.shubh.uber.backend.project.uber.services.RideService;
+import com.shubh.uber.backend.project.uber.services.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -33,6 +30,7 @@ public class DriverServiceImpl implements DriverService {
     private final RideService rideService;
     private final ModelMapper modelMapper;
     private final PaymentService paymentService;
+    private final RatingService ratingService;
 
     @Override
     @Transactional
@@ -48,8 +46,7 @@ public class DriverServiceImpl implements DriverService {
             throw new RuntimeException("Driver cannot accept ride due to unavailability");
         }
 
-        currentDriver.setAvailable(false);
-        Driver savedDriver = driverRepository.save(currentDriver);
+        Driver savedDriver = updateDriverAvailability(currentDriver, false);
 
         Ride ride = rideService.createNewRide(rideRequest, savedDriver);
         return modelMapper.map(ride, RideDto.class);
@@ -93,7 +90,9 @@ public class DriverServiceImpl implements DriverService {
 
         ride.setStartedAt(LocalDateTime.now());
         Ride savedRide = rideService.updateRideStatus(ride, RideStatus.ONGOING);
+
         paymentService.createNewPayment(savedRide);
+        ratingService.createNewRating(savedRide);
 
         return modelMapper.map(savedRide, RideDto.class);
     }
@@ -101,7 +100,6 @@ public class DriverServiceImpl implements DriverService {
     @Override
     @Transactional
     public RideDto endRide(Long rideId) {
-
         Ride ride = rideService.getRideById(rideId);
         Driver driver = getCurrentDriver();
 
@@ -120,25 +118,32 @@ public class DriverServiceImpl implements DriverService {
         paymentService.processPayment(ride);
 
         return modelMapper.map(savedRide, RideDto.class);
-
     }
 
     @Override
     public RiderDto rateRider(Long rideId, Integer rating) {
-        return null;
+        Ride ride = rideService.getRideById(rideId);
+        Driver driver = getCurrentDriver();
+
+        if(!driver.equals(ride.getDriver())) {
+            throw new RuntimeException("Driver is not the owner of this Ride");
+        }
+
+        if(!ride.getRideStatus().equals(RideStatus.ENDED)) {
+            throw new RuntimeException("Ride status is not Ended hence cannot start rating, status: "+ride.getRideStatus());
+        }
+
+        return ratingService.rateRider(ride, rating);
     }
 
     @Override
     public DriverDto getMyProfile() {
-
         Driver currentDriver = getCurrentDriver();
         return modelMapper.map(currentDriver, DriverDto.class);
-
     }
 
     @Override
     public Page<RideDto> getAllMyRides(PageRequest pageRequest) {
-
         Driver currentDriver = getCurrentDriver();
         return rideService.getAllRidesOfDriver(currentDriver, pageRequest).map(
                 ride -> modelMapper.map(ride, RideDto.class)
@@ -153,9 +158,12 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver updateDriverAvailability(Driver driver, boolean available) {
-
         driver.setAvailable(available);
         return driverRepository.save(driver);
+    }
 
+    @Override
+    public Driver createNewDriver(Driver driver) {
+        return driverRepository.save(driver);
     }
 }

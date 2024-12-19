@@ -13,6 +13,11 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Table(
+        indexes = {
+                @Index(name = "idx_ride_request_rider", columnList = "rider_id")
+        }
+)
 public class RideRequest {   //one riderequest table can have lot of users.
 //one user can have 1 riderequest at one time
     @Id

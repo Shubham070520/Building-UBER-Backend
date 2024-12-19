@@ -11,6 +11,7 @@ import com.shubh.uber.backend.project.uber.exceptions.ResourceNotFoundException;
 import com.shubh.uber.backend.project.uber.repositories.RideRequestRepository;
 import com.shubh.uber.backend.project.uber.repositories.RiderRepository;
 import com.shubh.uber.backend.project.uber.services.DriverService;
+import com.shubh.uber.backend.project.uber.services.RatingService;
 import com.shubh.uber.backend.project.uber.services.RideService;
 import com.shubh.uber.backend.project.uber.services.RiderService;
 import com.shubh.uber.backend.project.uber.strategies.RideStrategyManager;
@@ -35,6 +36,7 @@ public class RiderServiceImpl implements RiderService {
     private final RiderRepository riderRepository;
     private final RideService rideService;
     private final DriverService driverService;
+    private final RatingService ratingService;
 
     @Override
     @Transactional
@@ -59,7 +61,6 @@ public class RiderServiceImpl implements RiderService {
 
     @Override
     public RideDto cancelRide(Long rideId) {
-
         Rider rider = getCurrentRider();
         Ride ride = rideService.getRideById(rideId);
 
@@ -75,20 +76,28 @@ public class RiderServiceImpl implements RiderService {
         driverService.updateDriverAvailability(ride.getDriver(), true);
 
         return modelMapper.map(savedRide, RideDto.class);
-
     }
 
     @Override
-    public DriverDto rateRider(Long rideId, Integer rating) {
-        return null;
+    public DriverDto rateDriver(Long rideId, Integer rating) {
+        Ride ride = rideService.getRideById(rideId);
+        Rider rider = getCurrentRider();
+
+        if(!rider.equals(ride.getRider())) {
+            throw new RuntimeException("Rider is not the owner of this Ride");
+        }
+
+        if(!ride.getRideStatus().equals(RideStatus.ENDED)) {
+            throw new RuntimeException("Ride status is not Ended hence cannot start rating, status: "+ride.getRideStatus());
+        }
+
+        return ratingService.rateDriver(ride, rating);
     }
 
     @Override
     public RiderDto getMyProfile() {
-
         Rider currentRider = getCurrentRider();
         return modelMapper.map(currentRider, RiderDto.class);
-
     }
 
     @Override
@@ -98,6 +107,7 @@ public class RiderServiceImpl implements RiderService {
                 ride -> modelMapper.map(ride, RideDto.class)
         );
     }
+
     @Override
     public Rider createNewRider(User user) {
         Rider rider = Rider

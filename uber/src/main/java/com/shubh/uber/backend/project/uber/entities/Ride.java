@@ -18,6 +18,10 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "idx_ride_rider", columnList = "rider_id"),
+        @Index(name = "idx_ride_driver", columnList = "driver_id")
+})
 public class Ride {
 
     @Id
@@ -49,6 +53,7 @@ public class Ride {
 
     private String otp;
 
+    @Column(nullable = true)
     private LocalDateTime startedAt;  //when ride starts(after otp input)
 
     private LocalDateTime endedAt;  //when reached destination

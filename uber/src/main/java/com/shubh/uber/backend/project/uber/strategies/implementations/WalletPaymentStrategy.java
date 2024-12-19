@@ -1,11 +1,5 @@
 package com.shubh.uber.backend.project.uber.strategies.implementations;
 
-
-//Rider had 232, Driver had 500
-//Ride cost is 100, commission = 30
-//Rider -> 232-100 = 132
-//Driver -> 500 + (100 - 30) = 570
-
 import com.shubh.uber.backend.project.uber.entities.Driver;
 import com.shubh.uber.backend.project.uber.entities.Payment;
 import com.shubh.uber.backend.project.uber.entities.Rider;
@@ -42,5 +36,4 @@ public class WalletPaymentStrategy implements PaymentStrategy {
         payment.setPaymentStatus(PaymentStatus.CONFIRMED);
         paymentRepository.save(payment);
     }
-
 }

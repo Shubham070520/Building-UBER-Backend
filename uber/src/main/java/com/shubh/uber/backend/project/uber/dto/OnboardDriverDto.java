@@ -3,9 +3,8 @@ package com.shubh.uber.backend.project.uber.dto;
 import lombok.Data;
 
 @Data
-public class RideStartDto {
+public class OnboardDriverDto {
 
-    String otp;
+    private String vehicleId;
 
 }
-

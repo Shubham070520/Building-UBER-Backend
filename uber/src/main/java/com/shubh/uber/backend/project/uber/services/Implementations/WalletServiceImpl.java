@@ -27,7 +27,6 @@ public class WalletServiceImpl implements WalletService {
     @Override
     @Transactional
     public Wallet addMoneyToWallet(User user, Double amount, String transactionId, Ride ride, TransactionMethod transactionMethod) {
-
         Wallet wallet = findByUser(user);
         wallet.setBalance(wallet.getBalance()+amount);
 
@@ -42,14 +41,14 @@ public class WalletServiceImpl implements WalletService {
 
         walletTransactionService.createNewWalletTransaction(walletTransaction);
 
-        //        wallet.getTransactions().add(walletTransaction);
         return walletRepository.save(wallet);
-
     }
 
     @Override
-    public Wallet deductMoneyFromWallet(User user, Double amount, String transactionId, Ride ride, TransactionMethod transactionMethod) {
-
+    @Transactional
+    public Wallet deductMoneyFromWallet(User user, Double amount,
+                                        String transactionId, Ride ride,
+                                        TransactionMethod transactionMethod) {
         Wallet wallet = findByUser(user);
         wallet.setBalance(wallet.getBalance()-amount);
 
@@ -67,7 +66,6 @@ public class WalletServiceImpl implements WalletService {
 //        wallet.getTransactions().add(walletTransaction);
 
         return walletRepository.save(wallet);
-
     }
 
     @Override
@@ -77,26 +75,20 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public Wallet findWalletById(Long walletId) {
-
         return walletRepository.findById(walletId)
                 .orElseThrow(() -> new ResourceNotFoundException("Wallet not found with id: "+walletId));
-
     }
 
     @Override
     public Wallet createNewWallet(User user) {
-
         Wallet wallet = new Wallet();
         wallet.setUser(user);
         return walletRepository.save(wallet);
-
     }
 
     @Override
     public Wallet findByUser(User user) {
-
         return walletRepository.findByUser(user)
                 .orElseThrow(() -> new ResourceNotFoundException("Wallet not found for user with id: "+user.getId()));
-
     }
 }
