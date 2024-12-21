@@ -1,6 +1,5 @@
 package com.shubh.uber.backend.project.uber.services;
 
-import com.shubh.uber.backend.project.uber.dto.RideRequestDto;
 import com.shubh.uber.backend.project.uber.entities.Driver;
 import com.shubh.uber.backend.project.uber.entities.Ride;
 import com.shubh.uber.backend.project.uber.entities.RideRequest;
