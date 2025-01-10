@@ -20,5 +20,4 @@ public class PaymentStrategyManager {
             case CASH -> cashPaymentStrategy;
         };
     }
-
 }

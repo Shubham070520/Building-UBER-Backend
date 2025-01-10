@@ -6,6 +6,7 @@ import com.shubh.uber.backend.project.uber.dto.RiderDto;
 import com.shubh.uber.backend.project.uber.entities.Driver;
 import com.shubh.uber.backend.project.uber.entities.Ride;
 import com.shubh.uber.backend.project.uber.entities.RideRequest;
+import com.shubh.uber.backend.project.uber.entities.User;
 import com.shubh.uber.backend.project.uber.entities.enums.RideRequestStatus;
 import com.shubh.uber.backend.project.uber.entities.enums.RideStatus;
 import com.shubh.uber.backend.project.uber.exceptions.ResourceNotFoundException;
@@ -151,8 +152,11 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver getCurrentDriver() {
-        return driverRepository.findById(2L).orElseThrow(() -> new ResourceNotFoundException("Driver not found with " +
-                "id "+2));
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return driverRepository.findByUser(user)
+                .orElseThrow(() -> new ResourceNotFoundException("Driver not associated with user with " +
+                        "id "+user.getId()));
     }
 
     @Override
@@ -165,4 +169,5 @@ public class DriverServiceImpl implements DriverService {
     public Driver createNewDriver(Driver driver) {
         return driverRepository.save(driver);
     }
+
 }

@@ -25,17 +25,29 @@ import static com.shubh.uber.backend.project.uber.entities.enums.Role.DRIVER;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImpl implements AuthService {   //This is done because we want loose coupling
+public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final RiderService riderService;
     private final WalletService walletService;
     private final DriverService driverService;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
 
     @Override
-    public String login(String email, String password) {
-        return "";
+    public String[] login(String email, String password) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, password)
+        );
+
+        User user = (User) authentication.getPrincipal();
+
+        String accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+
+        return new String[]{accessToken, refreshToken};
     }
 
     @Override
@@ -47,6 +59,7 @@ public class AuthServiceImpl implements AuthService {   //This is done because w
 
         User mappedUser = modelMapper.map(signupDto, User.class);
         mappedUser.setRoles(Set.of(Role.RIDER));
+        mappedUser.setPassword(passwordEncoder.encode(mappedUser.getPassword()));
         User savedUser = userRepository.save(mappedUser);
 
 //        create user related entities
@@ -74,5 +87,14 @@ public class AuthServiceImpl implements AuthService {   //This is done because w
         userRepository.save(user);
         Driver savedDriver = driverService.createNewDriver(createDriver);
         return modelMapper.map(savedDriver, DriverDto.class);
+    }
+
+    @Override
+    public String refreshToken(String refreshToken) {
+        Long userId = jwtService.getUserIdFromToken(refreshToken);
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found " +
+                "with id: "+userId));
+
+        return jwtService.generateAccessToken(user);
     }
 }
