@@ -1,6 +1,7 @@
 package com.shubh.uber.backend.project.uber.configs;
 
 
+import com.shubh.uber.backend.project.uber.security.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
