@@ -1,7 +1,10 @@
 package com.shubh.uber.backend.project.uber.services.Implementations;
 
+import com.shubh.uber.backend.project.uber.services.EmailSenderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,5 +1,8 @@
 package com.shubh.uber.backend.project.uber.services;
 
+import com.shubh.uber.backend.project.uber.entities.User;
+import com.shubh.uber.backend.project.uber.exceptions.ResourceNotFoundException;
+import com.shubh.uber.backend.project.uber.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

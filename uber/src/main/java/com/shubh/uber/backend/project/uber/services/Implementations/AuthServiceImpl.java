@@ -9,12 +9,17 @@ import com.shubh.uber.backend.project.uber.entities.enums.Role;
 import com.shubh.uber.backend.project.uber.exceptions.ResourceNotFoundException;
 import com.shubh.uber.backend.project.uber.exceptions.RuntimeConflictException;
 import com.shubh.uber.backend.project.uber.repositories.UserRepository;
+import com.shubh.uber.backend.project.uber.security.JWTService;
 import com.shubh.uber.backend.project.uber.services.AuthService;
 import com.shubh.uber.backend.project.uber.services.DriverService;
 import com.shubh.uber.backend.project.uber.services.RiderService;
 import com.shubh.uber.backend.project.uber.services.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
