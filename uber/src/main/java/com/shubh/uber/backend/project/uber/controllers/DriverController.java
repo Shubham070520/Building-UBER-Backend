@@ -56,5 +56,4 @@ public class DriverController {
                 Sort.by(Sort.Direction.DESC, "createdTime", "id"));
         return ResponseEntity.ok(driverService.getAllMyRides(pageRequest));
     }
-
 }
